@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "895846488743",
+    "firebase_url": "https://flutter-dropdown-d8050-default-rtdb.firebaseio.com",
+    "project_id": "flutter-dropdown-d8050",
+    "storage_bucket": "flutter-dropdown-d8050.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:895846488743:android:db37ac319215c3fe8e9982",
+        "android_client_info": {
+          "package_name": "com.example.account_form"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "895846488743-cbcg0dbf1aat3p8k6ivl1odk9ha236kh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCihThLOQbntGQyC3QOEfogh5fn48Duzdo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "895846488743-cbcg0dbf1aat3p8k6ivl1odk9ha236kh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
