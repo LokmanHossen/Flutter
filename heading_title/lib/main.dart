@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
       ),
     );
 
-    // itleSection widget
+    // titleSection widget
     Widget titleSection = Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
