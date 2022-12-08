@@ -87,11 +87,13 @@ class FruitBox extends StatelessWidget {
         color: boxColor,
         child: Center(child: Text(boxIcon, style: TextStyle(fontSize: 50.0))),
       ),
-      feedback: Container(
-        height: 120.0,
-        width: 120.0,
-        color: Colors.yellow,
-        child: Center(child: Text(boxIcon, style: TextStyle(fontSize: 50.0))),
+      feedback: Material(
+        child: Container(
+          height: 120.0,
+          width: 120.0,
+          color: Colors.yellow,
+          child: Center(child: Text(boxIcon, style: TextStyle(fontSize: 50.0))),
+        ),
       ),
       childWhenDragging: Container(
         height: 120.0,
