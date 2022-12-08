@@ -32,6 +32,59 @@ class NavBar extends StatelessWidget {
               ),
             ),
           ),
+          ListTile(
+            leading: Icon(Icons.favorite),
+            title: Text('Favorite'),
+            onTap: () => null,
+          ),
+          ListTile(
+            leading: Icon(Icons.people),
+            title: Text('Friends'),
+            onTap: () => null,
+          ),
+          ListTile(
+            leading: Icon(Icons.share),
+            title: Text('Share'),
+            onTap: () => null,
+          ),
+          ListTile(
+            leading: Icon(Icons.notifications),
+            title: Text('Notifications'),
+            onTap: () => null,
+            trailing: ClipOval(
+              child: Container(
+                color: Colors.red,
+                height: 20.0,
+                width: 20.0,
+                child: Center(
+                  child: Text(
+                    '8',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Settings'),
+            onTap: () => null,
+          ),
+          ListTile(
+            leading: Icon(Icons.description),
+            title: Text('Policies'),
+            onTap: () => null,
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.exit_to_app),
+            title: Text('EXIT'),
+            onTap: () => null,
+          ),
         ],
       ),
     );
