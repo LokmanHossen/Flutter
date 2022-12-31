@@ -49,12 +49,14 @@ class MyApp extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              Strings.appHeadingTitle,
-              style: TextStyle(
-                color: Color(0xff622F74),
-                fontWeight: FontWeight.bold,
-                fontSize: 30.0,
+            child: Center(
+              child: Text(
+                Strings.appHeadingTitle,
+                style: TextStyle(
+                  color: Color(0xff622F74),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30.0,
+                ),
               ),
             ),
           ),
@@ -85,11 +87,13 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text(Strings.appBarTitle),
         ),
-        body: ListView(
-          children: [
-            buttonDisplay,
-            titleSection,
-          ],
+        body: Center(
+          child: ListView(
+            children: [
+              buttonDisplay,
+              titleSection,
+            ],
+          ),
         ),
       ),
     );
