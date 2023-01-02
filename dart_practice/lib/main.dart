@@ -1,97 +1,131 @@
+import 'dart:html';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
-String getFullName(String firstName, String lastName) {
-  return '$firstName $lastName';
-}
+// String getFullName(String firstName, String lastName) {
+//   return '$firstName $lastName';
+// }
 
 void main() {
   runApp(const MyApp());
 }
 
-void test(List<String>? names) {
-  // int length = 0;
-  // if (names != null) {
-    final length = names?.length ?? 0;
-  //} 
-  //else {
-  //   length = 0;
-  // }
+//---------------Swith Statement---------------//
+enum AnimalType { cat, dog, bunny }
 
-// null-aware assignment operator
+void test(AnimalType animalType) {
+  switch (animalType) {
+    case AnimalType.bunny:
+      print("Bunny");
+      return;
+    case AnimalType.cat:
+      print("Cat");
+      return;
+    case AnimalType.dog:
+      print("Dog");
+  }
+  // if (animalType == AnimalType.cat) {
+  //   print("Oh I love Cat");
+  // } else if (animalType == AnimalType.dog) {
+  //   print("Dogs are so fluffy");
+  // } else if (animalType == AnimalType.bunny) {
+  //   print("I wish I had a bunny");
+  // }
+}
+
+//-------------------------Enumerations------------------------//
+// enum PersonProperties { firstName, lastName, age }
+
+// void test() {
+//   print(PersonProperties.lastName);
+// }
+
+// void test(List<String>? names) {
+//   // int length = 0;
+//   // if (names != null) {
+//     final length = names?.length ?? 0;
+//}
+//else {
+//   length = 0;
+// }
+
+//------------- null-aware assignment operator-------------------//
 
 // void test(String? firstName, String? middleName, String? lastName) {
 //   String? name = lastName;
 //   name ??= middleName;
 //   name ??= lastName;
 //   print(name);
-  // Type nullable
 
-  // const String? firstName = null;
-  // const String? middleName = null;
-  // const String? lastName = 'Hossen';
+//------------- Type nullable-------------------------//
 
-  // if (firstName != null) {
-  //   print("First name is the first non-null value");
-  // } else if (middleName != null) {
-  //   print("middle name is the first non-null value");
-  // } else if (lastName != null) {
-  //   print("last name is the first non-null value");
-  // }
+// const String? firstName = null;
+// const String? middleName = null;
+// const String? lastName = 'Hossen';
 
-  // List<String?>? names = ['Foo', 'Bar', null];
-  // names = null;
+// if (firstName != null) {
+//   print("First name is the first non-null value");
+// } else if (middleName != null) {
+//   print("middle name is the first non-null value");
+// } else if (lastName != null) {
+//   print("last name is the first non-null value");
+// }
 
-  // int? age = 20;
-  // // age = null;
-  // if (age == null){
+// List<String?>? names = ['Foo', 'Bar', null];
+// names = null;
 
-  // }
+// int? age = 20;
+// // age = null;
+// if (age == null){
 
-  // String? name = null;
-  // print(name);
+// }
 
-  // name = 'Lookman';
-  // print(name);
+// String? name = null;
+// print(name);
 
-//Maps in Dart
+// name = 'Lookman';
+// print(name);
 
-  // var person = {
-  //   'age': 20,
+//--------------------------Maps in Dart-------------------//
 
-  //   'name': 'Lokman',
-  // };
+// var person = {
+//   'age': 20,
 
-  // print(person);
-  // person['LastName'] = 'Hossem';
-  // print(person);
+//   'name': 'Lokman',
+// };
 
-//set  of dart
+// print(person);
+// person['LastName'] = 'Hossem';
+// print(person);
 
-  // var names = {'Jesmin', 'Lokman', 'Jui'};
-  // names.add('Moina');
-  // names.add('Sinha');
-  // names.add('Sinthiya');
-  // print(names);
+//-------------------set  of dart----------------------//
 
-  //List
-  // final names = ['foo', 'Bar', 'BAz'];
-  // // final foo = names[1];
-  // // print(foo);
-  // print(names.length);
-  // names.add('My name');
-  // print(names.length);
+// var names = {'Jesmin', 'Lokman', 'Jui'};
+// names.add('Moina');
+// names.add('Sinha');
+// names.add('Sinthiya');
+// print(names);
 
-//Operqator
-  // final name = 'Foo Bar Baz';
-  // final nameTimes100 = name * 100;
-  // print(nameTimes100);
+//-------------------List---------------------------//
+// final names = ['foo', 'Bar', 'BAz'];
+// // final foo = names[1];
+// // print(foo);
+// print(names.length);
+// names.add('My name');
+// print(names.length);
 
-  // var age = 20;
-  // final ageMinusOne = --age;
-  // print(age);
-  // print(ageMinusOne);
+//--------------------------Operqator----------------------//
+// final name = 'Foo Bar Baz';
+// final nameTimes100 = name * 100;
+// print(nameTimes100);
 
-  //if else
+// var age = 20;
+// final ageMinusOne = --age;
+// print(age);
+// print(ageMinusOne);
+
+//----------------------------if else-----------------------//
 //  const name = 'lokman';
 //   if (name == 'lokmann') {
 //     print('Yes It is lokman');
@@ -100,7 +134,7 @@ void test(List<String>? names) {
 //   } else {
 //     print("I don't know what this is");
 //   }
-}
+//}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -108,7 +142,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    test();
+    test(AnimalType.dog);
 
     //test('foo', null, 'baz');
     //print(getFullName('Lokman', 'Jesmin'));
