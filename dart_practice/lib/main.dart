@@ -11,28 +11,58 @@ void main() {
   runApp(const MyApp());
 }
 
-//---------------Swith Statement---------------//
-enum AnimalType { cat, dog, bunny }
-
-void test(AnimalType animalType) {
-  switch (animalType) {
-    case AnimalType.bunny:
-      print("Bunny");
-      return;
-    case AnimalType.cat:
-      print("Cat");
-      return;
-    case AnimalType.dog:
-      print("Dog");
-  }
-  // if (animalType == AnimalType.cat) {
-  //   print("Oh I love Cat");
-  // } else if (animalType == AnimalType.dog) {
-  //   print("Dogs are so fluffy");
-  // } else if (animalType == AnimalType.bunny) {
-  //   print("I wish I had a bunny");
-  // }
+class Prson {
+  final String name;
+  Prson(this.name);
 }
+
+//---------------------Constructor---------------//
+void constructor() {
+  final foo = Prson('Foo Bar');
+  print(foo.name);
+}
+
+//------------------Classes---------------//
+class Person {
+  void run() {
+    print('RUNNING');
+  }
+
+  void breathe() {
+    print('Breathing');
+  }
+}
+
+void test() {
+  final person = Person();
+  person.run();
+  person.breathe();
+}
+
+//---------------Swith Statement---------------//
+// enum AnimalType { cat, dog, bunny }
+
+// void (AnimalType animalType) {
+//   switch (animalType) {
+//     case AnimalType.bunny:
+//       print("Bunny");
+//       return;
+//     case AnimalType.cat:
+//       print("Cat");
+//       return;
+//     case AnimalType.dog:
+//       print("Dog");
+//   }
+//   print("FUNCTION IS FINISHED");
+
+// if (animalType == AnimalType.cat) {
+//   print("Oh I love Cat");
+// } else if (animalType == AnimalType.dog) {
+//   print("Dogs are so fluffy");
+// } else if (animalType == AnimalType.bunny) {
+//   print("I wish I had a bunny");
+// }
+//}
 
 //-------------------------Enumerations------------------------//
 // enum PersonProperties { firstName, lastName, age }
@@ -142,7 +172,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    test(AnimalType.dog);
+    test();
+    constructor();
+  
 
     //test('foo', null, 'baz');
     //print(getFullName('Lokman', 'Jesmin'));
