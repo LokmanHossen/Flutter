@@ -12,6 +12,18 @@ void main() {
   runApp(const MyApp());
 }
 
+//-----------------Future-------------//
+//use  async & await keyword
+Future<int> heavvyFutureThatMultipliesByTwo(int a) {
+  return Future.delayed(const Duration(seconds: 3), () {
+    return a * 2;
+  });
+}
+
+void future() async {
+  final result = await heavvyFutureThatMultipliesByTwo(10);
+  print(result);
+}
 
 //-----------------Extension--------------//
 
@@ -44,7 +56,6 @@ void extension() {
   // meow.run();
   //print(meow.name);
 }
-
 
 //------------Custom Operator-------------//
 
@@ -283,6 +294,7 @@ class MyApp extends StatelessWidget {
     factory_c();
     custom_operator();
     extension();
+    future();
 
     //test('foo', null, 'baz');
     //print(getFullName('Lokman', 'Jesmin'));
