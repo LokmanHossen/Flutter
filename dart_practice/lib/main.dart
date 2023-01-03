@@ -1,3 +1,4 @@
+//import 'dart:ffi';
 import 'dart:html';
 import 'dart:math';
 
@@ -11,15 +12,44 @@ void main() {
   runApp(const MyApp());
 }
 
+
+//-------------Inheritance and subclassing--------//
+
+
+class LivingThing {
+  void breathe() {
+    print('Living thing is breathing');
+  }
+
+  void move() {
+    print('I am Moving');
+  }
+}
+
+class cat extends LivingThing {}
+
+void inheritance() {
+  final fluffers = cat();
+  fluffers.move();
+  fluffers.breathe();
+}
+//---------------------Constructor---------------//
+
 class Prson {
   final String name;
   Prson(this.name);
+
+  void printName() {
+    // Method
+    print('I will now print the name of person');
+    print(name);
+  }
 }
 
-//---------------------Constructor---------------//
 void constructor() {
   final foo = Prson('Foo Bar');
-  print(foo.name);
+  // print(foo.name);
+  foo.printName();
 }
 
 //------------------Classes---------------//
@@ -172,9 +202,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    test();
-    constructor();
-  
+    // test();
+    //constructor();
+    inheritance();
 
     //test('foo', null, 'baz');
     //print(getFullName('Lokman', 'Jesmin'));
