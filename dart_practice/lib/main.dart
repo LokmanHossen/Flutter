@@ -12,6 +12,30 @@ void main() {
   runApp(const MyApp());
 }
 
+//------------Custom Operator-------------//
+
+class Pet {
+  final String name;
+  Pet(this.name);
+  @override
+  bool operator == (covariant Pet other) => other.name == name;
+  
+  @override
+
+  int get hashCode => name.hashCode;
+  
+}
+
+void custom_operator() {
+  final pet1 = Pet('Cat');
+  final pet2 = Pet('Cat');
+
+  if (pet1 == pet2) {
+    print('The are equal');
+  } else {
+    print('They are not equal');
+  }
+}
 
 //-------------Factory Constructor---------//
 class Rat {
@@ -26,6 +50,7 @@ class Rat {
 void factory_c() {
   final fluffBall = Rat.fluffBall();
   print(fluffBall.name);
+
   // final fluffBall = Rat('Fluff Ball');
   // print(fluffBall.name);
 }
@@ -224,6 +249,7 @@ class MyApp extends StatelessWidget {
     //constructor();
     inheritance();
     factory_c();
+    custom_operator();
 
     //test('foo', null, 'baz');
     //print(getFullName('Lokman', 'Jesmin'));
