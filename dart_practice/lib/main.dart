@@ -12,18 +12,50 @@ void main() {
   runApp(const MyApp());
 }
 
+
+//-----------------Extension--------------//
+
+class Ccat {
+  final String name;
+  Ccat(this.name);
+}
+
+class Pperson {
+  final String firstName;
+  final String lastName;
+
+  Pperson(this.firstName, this.lastName);
+}
+
+extension FullName on Pperson {
+  String get fullName => '$firstName $lastName';
+}
+
+extension Run on Ccat {
+  void run() {
+    print('Cat $name is running');
+  }
+}
+
+void extension() {
+  final foo = Pperson('foo', 'Bar');
+  print(foo.fullName);
+  // final meow = Ccat('Fluffers');
+  // meow.run();
+  //print(meow.name);
+}
+
+
 //------------Custom Operator-------------//
 
 class Pet {
   final String name;
   Pet(this.name);
   @override
-  bool operator == (covariant Pet other) => other.name == name;
-  
-  @override
+  bool operator ==(covariant Pet other) => other.name == name;
 
+  @override
   int get hashCode => name.hashCode;
-  
 }
 
 void custom_operator() {
@@ -250,6 +282,7 @@ class MyApp extends StatelessWidget {
     inheritance();
     factory_c();
     custom_operator();
+    extension();
 
     //test('foo', null, 'baz');
     //print(getFullName('Lokman', 'Jesmin'));
