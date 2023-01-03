@@ -13,10 +13,26 @@ void main() {
 }
 
 
+//-------------Factory Constructor---------//
+class Rat {
+  final String name;
+  Rat(this.name);
+
+  factory Rat.fluffBall() {
+    return Rat('Fluff Ball');
+  }
+}
+
+void factory_c() {
+  final fluffBall = Rat.fluffBall();
+  print(fluffBall.name);
+  // final fluffBall = Rat('Fluff Ball');
+  // print(fluffBall.name);
+}
+
 //-------------Inheritance and subclassing--------//
 
-
-class LivingThing {
+abstract class LivingThing {
   void breathe() {
     print('Living thing is breathing');
   }
@@ -26,10 +42,12 @@ class LivingThing {
   }
 }
 
-class cat extends LivingThing {}
+class Cat extends LivingThing {}
 
 void inheritance() {
-  final fluffers = cat();
+  //final fluffers = Cat(); //abstract class
+
+  final fluffers = Cat();
   fluffers.move();
   fluffers.breathe();
 }
@@ -205,6 +223,7 @@ class MyApp extends StatelessWidget {
     // test();
     //constructor();
     inheritance();
+    factory_c();
 
     //test('foo', null, 'baz');
     //print(getFullName('Lokman', 'Jesmin'));
