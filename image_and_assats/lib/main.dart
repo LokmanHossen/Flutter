@@ -18,15 +18,14 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.red,
         ),
         body: const Center(
-          child:
-              // Image.asset(
-              //   'image/img-3.jpg',
-              // ),
-
-              Image(
-            image: AssetImage('image/img-1.jpg'),
-            fit: BoxFit.fill,
+          child: Image.asset(
+            'image/img-1.jpg',
           ),
+
+          //     Image(
+          //   image: AssetImage('image/img-1.jpg'),
+          //   fit: BoxFit.fill,
+          // ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {},
