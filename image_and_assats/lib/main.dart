@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
           centerTitle: true,
           backgroundColor: Colors.red,
         ),
-        body: const Center(
+        body: Center(
           child: Image.asset(
             'image/img-1.jpg',
           ),

@@ -14,9 +14,9 @@ class HomePage extends StatelessWidget {
       ),
       body: Center(
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(10.0),
           constraints: const BoxConstraints.expand(
-            width: 330,
+            width: 350,
             height: 450,
           ),
           decoration: const BoxDecoration(

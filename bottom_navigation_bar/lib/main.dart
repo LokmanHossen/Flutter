@@ -1,5 +1,5 @@
+import 'package:bottom_navigation_bar/HomePage.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_design/homepage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,10 +11,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ResponSive',
-      debugShowCheckedModeBanner: false,
+      title: 'NavigationBar',
       home: HomePage(),
-      theme: ThemeData(primarySwatch: Colors.deepPurple),
     );
   }
 }
