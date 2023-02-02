@@ -159,6 +159,34 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  Widget buidSUbmitButton() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 25),
+      width: double.infinity,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: Colors.white,
+          //shape: StadiumBorder(),
+          padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+        ),
+        onPressed: () {
+          print('Login Pressd');
+        },
+        child: Text(
+          'LogIn',
+          style: TextStyle(
+            color: Color(0xff5ac18e),
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -213,6 +241,10 @@ class _LoginPageState extends State<LoginPage> {
                         height: 20,
                       ),
                       BuildCheckClick(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      buidSUbmitButton(),
                     ],
                   ),
                 ),
