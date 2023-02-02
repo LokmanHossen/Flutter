@@ -127,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget BuildCheckClick() {
+  Widget buildCheckClick() {
     return Container(
       height: 20,
       child: Row(
@@ -187,6 +187,32 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  Widget buildSignUpButton() {
+    return GestureDetector(
+      onTap: () => print('SignUp Pressed'),
+      child: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: 'Don\'t Have Account?  ',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            TextSpan(
+                text: 'Sign Up',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                )),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -240,11 +266,12 @@ class _LoginPageState extends State<LoginPage> {
                       SizedBox(
                         height: 20,
                       ),
-                      BuildCheckClick(),
+                      buildCheckClick(),
                       SizedBox(
                         height: 20,
                       ),
                       buidSUbmitButton(),
+                      buildSignUpButton(),
                     ],
                   ),
                 ),
