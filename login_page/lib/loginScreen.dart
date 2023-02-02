@@ -7,6 +7,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool? isRememberMe = false;
   Widget buildEmail() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,6 +111,54 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  Widget buildForgotPassword() {
+    return Container(
+      alignment: Alignment.centerRight,
+      child: TextButton(
+        onPressed: () => print("Forgot Password pressed"),
+        child: Text(
+          'Forgotr Password',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget BuildCheckClick() {
+    return Container(
+      height: 20,
+      child: Row(
+        children: [
+          Theme(
+            data: ThemeData(
+              unselectedWidgetColor: Colors.white,
+            ),
+            child: Checkbox(
+              value: isRememberMe,
+              checkColor: Colors.green,
+              activeColor: Colors.white,
+              onChanged: (value) {
+                setState(() {
+                  isRememberMe = value;
+                });
+              },
+            ),
+          ),
+          Text(
+            'Remember Me',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -152,8 +201,18 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       SizedBox(height: 50),
                       buildEmail(),
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
                       buildPassword(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      buildForgotPassword(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      BuildCheckClick(),
                     ],
                   ),
                 ),
