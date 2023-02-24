@@ -1,4 +1,6 @@
 //import 'dart:ffi';
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 
 // String getFullName(String firstName, String lastName) {
@@ -8,12 +10,72 @@ import 'package:flutter/material.dart';
 void main() {
   runApp(const MyApp());
 }
+//----------------Generic------------------//
+
+class PairOfString {
+  final String value1;
+  final String value2;
+
+  PairOfString(this.value1, this.value2);
+}
+
+class PairOfIntegers {
+  final values1;
+  final values2;
+
+  PairOfIntegers(this.values1, this.values2);
+}
+
+class Pair<A, B> {
+  final A value1;
+  final B value2;
+
+  Pair(this.value1, this.value2);
+}
+
+void generic() {
+  final names = Pair('Lokman', 05);
+  print(names);
+}
+
+//------------------------Generator--------------------//
+Iterable<int> getOnerTwoThree() sync* {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+void generator() {
+  print(getOnerTwoThree());
+  // for (final value in getOnerTwoThree()) {
+  //   print(value);
+  //   if (value == 2) {
+  //     break;
+  //   }
+  //}
+}
+
+//----------------Streams---------------//
+
+Stream<String> getName() {
+  return Stream.periodic(const Duration(seconds: 1), (value) {
+    return 'LokmanLJ';
+  });
+}
+
+void stream() async {
+  //final value =await getName();
+  await for (final value in getName()) {
+    print(value);
+  }
+  print("Stream Finished Working");
+}
 
 //-----------------Future-------------//
 //use  async & await keyword
 Future<int> heavvyFutureThatMultipliesByTwo(int a) {
   return Future.delayed(const Duration(seconds: 3), () {
-    return a * 2;
+    return a * 3;
   });
 }
 
@@ -292,6 +354,9 @@ class MyApp extends StatelessWidget {
     custom_operator();
     extension();
     future();
+    stream();
+    generator();
+    generic();
 
     //test('foo', null, 'baz');
     //print(getFullName('Lokman', 'Jesmin'));
