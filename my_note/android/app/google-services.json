@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1088722759325",
+    "project_id": "mynote-cf629",
+    "storage_bucket": "mynote-cf629.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1088722759325:android:55a6796acb18cd9d6aee74",
+        "android_client_info": {
+          "package_name": "com.example.my_note"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1088722759325-36gd4rh9pjftr01asrkhnu6k0cn95tu7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCca1gjgU2pNgaZrzKgMMMP3KFQcuGbZnQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1088722759325-36gd4rh9pjftr01asrkhnu6k0cn95tu7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1088722759325-k1bbj1ha1h82q392hki3298ovuko2l0q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.myNote"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
