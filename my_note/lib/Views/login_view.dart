@@ -71,12 +71,14 @@ class _LoginViewState extends State<LoginView> {
                           password: password,
                         );
                         print(UserCredential);
-                      } 
-                      catch (e) {
-                        print("Something bad happend");
-                        print(e.runtimeType);
-                        print(e);
+                      } on FirebaseAuthException catch (e) {
+                        print(e.code);
                       }
+                      // catch (e) {
+                      //   print("Something bad happend");
+                      //   print(e.runtimeType);
+                      //   print(e);
+                      // }
                     },
                     child: Text("LogIn"),
                   ),
