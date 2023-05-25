@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +44,7 @@ class HomePage extends StatelessWidget {
                 return const VerifyEnmailView();
               }
             } else {
-              return const LoginView(); 
+              return const LoginView();
             }
             return const Text('Done');
             //   if (user?.emailVerified ?? false) {
