@@ -41,6 +41,24 @@ class _MyFormState extends State<MyForm> {
         padding: const EdgeInsets.all(30.0),
         child: ListView(
           children: [
+            Text(
+              'Product',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              'Add Product Details in the form below',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 25.0,
+            ),
             TextFormField(
               controller: _productContoller,
               // onChanged: (val) {
