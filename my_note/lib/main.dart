@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:my_note/Views/login_view.dart';
 import 'package:my_note/Views/register_view.dart';
 import 'package:my_note/Views/verify_email_view.dart';
-
 import 'firebase_options.dart';
+import 'dart:developer' as devtools show log;
 
 void main() {
   runApp(
@@ -39,28 +39,29 @@ class HomePage extends StatelessWidget {
             final user = FirebaseAuth.instance.currentUser;
             if (user != null) {
               if (user.emailVerified) {
-                print('Email Is Verified');
-              } else {
                 return const VerifyEnmailView();
+              } else {
+                return const LoginView();
               }
             } else {
-              return const LoginView();
+              return const NotesView();
             }
-            return const Text('Done');
-            //   if (user?.emailVerified ?? false) {
-            //     return Text("Done");
+          //return const Text('Done');
+          // if (user?.emailVerified ?? false) {
+          //   return Text("Done");
+          // }
 
-            //     //print('You are verified user');
-            //   } else {
-            //     return const VerifyEnmailView();
-            //     // print('You need to verify your Email first');
-            //     // Navigator.of(context).push(
-            //     //   MaterialPageRoute(
-            //     //     builder: (context) => const VerifyEnmailView(),
-            //     //   ),
-            //     // );
-            //   }
-            return const LoginView();
+          //     //print('You are verified user');
+          //   } else {
+          //     return const VerifyEnmailView();
+          //     // print('You need to verify your Email first');
+          //     // Navigator.of(context).push(
+          //     //   MaterialPageRoute(
+          //     //     builder: (context) => const VerifyEnmailView(),
+          //     //   ),
+          //     // );
+          //   }
+          // return const LoginView();
 
           // print(FirebaseAuth.instance.currentUser);
 
@@ -68,6 +69,42 @@ class HomePage extends StatelessWidget {
             return const CircularProgressIndicator();
         }
       },
+    );
+  }
+}
+
+enum MenuAction { logout }
+
+class NotesView extends StatefulWidget {
+  const NotesView({Key? key}) : super(key: key);
+
+  @override
+  State<NotesView> createState() => _NotesViewState();
+}
+
+class _NotesViewState extends State<NotesView> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Main UI'),
+        actions: [
+          PopupMenuButton<MenuAction>(
+            onSelected: (value) {
+              devtools.log(value.toString());
+            },
+            itemBuilder: (context) {
+              return const [
+                PopupMenuItem(
+                  value: MenuAction.logout,
+                  child: Text('Log out'),
+                ),
+              ];
+            },
+          )
+        ],
+      ),
+      body: const Text('Hello wprld'),
     );
   }
 }
