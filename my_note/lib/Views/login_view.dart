@@ -72,9 +72,15 @@ class _LoginViewState extends State<LoginView> {
                 // print(UserCredential);
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'user-not-found') {
-                  devtools.log("User not found");
+                  await showErrorDialog(
+                    context,
+                    'User not found',
+                  );
                 } else if (e.code == 'wrong-password') {
-                  devtools.log('Wrong Password');
+                  await showErrorDialog(
+                    context,
+                    'Wrong credentials ',
+                  );
                 }
               }
               // catch (e) {
@@ -116,4 +122,27 @@ class _LoginViewState extends State<LoginView> {
     //   ),
     // );
   }
+}
+
+// Login Error handling
+Future<void> showErrorDialog(
+  BuildContext context,
+  String text,
+) {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('An error Occured'),
+          content: Text(text),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      });
 }
