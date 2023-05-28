@@ -5,7 +5,6 @@ import 'package:my_note/Views/login_view.dart';
 import 'package:my_note/Views/register_view.dart';
 import 'package:my_note/Views/verify_email_view.dart';
 import 'firebase_options.dart';
-import 'dart:developer' as devtools show log;
 
 void main() {
   runApp(
@@ -19,6 +18,7 @@ void main() {
       routes: {
         '/login/': (context) => const LoginView(),
         '/register/': (context) => const RegisterView(),
+        '/notes/': (context) => const NotesView(),
       },
     ),
   );
@@ -39,32 +39,13 @@ class HomePage extends StatelessWidget {
             final user = FirebaseAuth.instance.currentUser;
             if (user != null) {
               if (user.emailVerified) {
-                return const VerifyEnmailView();
+                return const NotesView();
               } else {
-                return const LoginView();
+                return const VerifyEnmailView();
               }
             } else {
-              return const NotesView();
+              return const LoginView();
             }
-          //return const Text('Done');
-          // if (user?.emailVerified ?? false) {
-          //   return Text("Done");
-          // }
-
-          //     //print('You are verified user');
-          //   } else {
-          //     return const VerifyEnmailView();
-          //     // print('You need to verify your Email first');
-          //     // Navigator.of(context).push(
-          //     //   MaterialPageRoute(
-          //     //     builder: (context) => const VerifyEnmailView(),
-          //     //   ),
-          //     // );
-          //   }
-          // return const LoginView();
-
-          // print(FirebaseAuth.instance.currentUser);
-
           default:
             return const CircularProgressIndicator();
         }
@@ -96,8 +77,10 @@ class _NotesViewState extends State<NotesView> {
                   final shouldLogout = await showLogOutDialog(context);
                   if (shouldLogout) {
                     await FirebaseAuth.instance.signOut();
-                    Navigator.of(context)
-                        .pushNamedAndRemoveUntil('/login/', (_) => false);
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/login/',
+                      (_) => false,
+                    );
                   }
                 // devtools.log(shouldLogout.toString());
 
