@@ -1,10 +1,10 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as devtools show log;
 
 import 'package:my_note/constants/routes.dart';
+
+import '../utilities/show_error_dialog.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({Key? key}) : super(key: key);
@@ -80,25 +80,29 @@ class _RegisterViewState extends State<RegisterView> {
               final password = _password.text;
 
               try {
-                final UserCredential =
-                    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                await FirebaseAuth.instance.createUserWithEmailAndPassword(
                   email: email,
                   password: password,
                 );
-                devtools.log(UserCredential.toString());
-                //  print(UserCredential);
+                final user = FirebaseAuth.instance.currentUser;
+                await user?.sendEmailVerification();
+                Navigator.of(context).pushNamed(verifyEmailRoute);
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'weak-password') {
-                  devtools.log("weak Password");
-                }
-                // else{
-                //   print(e);
-                // }
-                // already use email check
-                else if (e.code == 'email-already-in-use') {
-                  devtools.log('Email is already in use');
+                  await showErrorDialog(
+                    context,
+                    'weak Password ',
+                  );
+                } else if (e.code == 'email-already-in-use') {
+                  await showErrorDialog(
+                    context,
+                    'Email is already in use ',
+                  );
                 } else if (e.code == 'invalid-email') {
-                  devtools.log('Invalid Email Entered');
+                  await showErrorDialog(
+                    context,
+                    'Invalid Email Entered ',
+                  );
                 }
               }
             },
