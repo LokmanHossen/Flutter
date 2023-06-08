@@ -59,9 +59,10 @@ class MockAurthProvider implements AuthProvider {
   }
 
   @override
-  Future<void> sendEmailVerification() {
+  Future<void> sendEmailVerification() async {
     if (!isInitialized) throw NotInitializedException();
     final user = _user;
-    if(user == )
+    if (user == null) throw UserNotFoundAuthException();
+    const newUser = AuthUser(isEmailVerified: true);
   }
 }
