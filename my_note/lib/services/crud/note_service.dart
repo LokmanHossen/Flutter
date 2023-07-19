@@ -10,8 +10,32 @@ class UnableToGetDoumentsDirectory implements Exception {}
 
 class DatabaseIsNotOpen implements Exception {}
 
+class CouldNotDeleteUser implements Exception {}
+
 class NotesService {
   Database? _db;
+
+  Future<void> deleteUser({required String email}) async {
+    final db = _getDatabaseOrthrow();
+    final deletedCount = await db.delete(
+      userTable,
+      where: 'email = ?',
+      whereArgs: [email.toLowerCase()],
+    );
+    if (deletedCount != 1) {
+      throw CouldNotDeleteUser();
+    }
+  }
+
+  Database _getDatabaseOrthrow() {
+    final db = _db;
+    if (db == null) {
+      throw DatabaseIsNotOpen();
+    } else {
+      return db;
+    }
+  }
+
   Future<void> close() async {
     final db = _db;
     if (db == null) {
