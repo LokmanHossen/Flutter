@@ -12,11 +12,33 @@ class DatabaseIsNotOpen implements Exception {}
 
 class CouldNotDeleteUser implements Exception {}
 
+class UserAlreadyExists implements Exception {}
+
 class NotesService {
   Database? _db;
 
+  Future<DatabaseUser> createUser({required String email}) async {
+    final db = _getDatabaseOrThrow();
+    final results = await db.query(
+      userTable,
+      limit: 1,
+      where: 'email = ?',
+      whereArgs: [email.toLowerCase()],
+    );
+    if (results.isNotEmpty) {
+      throw UserAlreadyExists();
+    }
+    final userId = await db.insert(userTable, {
+      emailColumn: email.toLowerCase(),
+    });
+    return DatabaseUser(
+      id: userId,
+      email: email,
+    );
+  }
+
   Future<void> deleteUser({required String email}) async {
-    final db = _getDatabaseOrthrow();
+    final db = _getDatabaseOrThrow();
     final deletedCount = await db.delete(
       userTable,
       where: 'email = ?',
@@ -27,7 +49,7 @@ class NotesService {
     }
   }
 
-  Database _getDatabaseOrthrow() {
+  Database _getDatabaseOrThrow() {
     final db = _db;
     if (db == null) {
       throw DatabaseIsNotOpen();
