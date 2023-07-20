@@ -20,6 +20,12 @@ class CounlNotDeleteNote implements Exception {}
 
 class NotesService {
   Database? _db;
+
+  Future<int> deleteAllNote() async {
+    final db = _getDatabaseOrThrow();
+    return await db.delete(noteTable);
+  }
+
   Future<void> deleteNote({required int id}) async {
     final db = _getDatabaseOrThrow();
     final deleteCount = await db.delete(
