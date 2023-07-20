@@ -19,6 +19,29 @@ class CounlNotFindUser implements Exception {}
 class NotesService {
   Database? _db;
 
+  Future<DatababaseNote> createNote({required DatabaseUser owner}) async {
+    final db = _getDatabaseOrThrow();
+    //make sure owner exists in the database with the correct id
+    final dbUser = await getUser(email: owner.email);
+    if (dbUser != owner) {
+      throw CounlNotFindUser();
+    }
+    const text = '';
+    //create the note
+    final noteId = await db.insert(noteTable, {
+      userIdColumn: owner.id,
+      textColumn: text,
+      isSyncedWithCloudCloud: 1,
+    });
+    final note = DatababaseNote(
+      id: noteId,
+      userId: owner.id,
+      text: text,
+      isSyncedWithCloud: true,
+    );
+    return note;
+  }
+
   Future<DatabaseUser> getUser({required String email}) async {
     final db = _getDatabaseOrThrow();
     final results = await db.query(
