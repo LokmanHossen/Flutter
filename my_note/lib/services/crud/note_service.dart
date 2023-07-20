@@ -16,8 +16,21 @@ class UserAlreadyExists implements Exception {}
 
 class CounlNotFindUser implements Exception {}
 
+class CounlNotDeleteNote implements Exception {}
+
 class NotesService {
   Database? _db;
+  Future<void> deleteNote({required int id}) async {
+    final db = _getDatabaseOrThrow();
+    final deleteCount = await db.delete(
+      noteTable,
+      where: 'id =?',
+      whereArgs: [id],
+    );
+    if (deleteCount == 0) {
+      throw CouldNotDeleteUser();
+    }
+  }
 
   Future<DatababaseNote> createNote({required DatabaseUser owner}) async {
     final db = _getDatabaseOrThrow();
