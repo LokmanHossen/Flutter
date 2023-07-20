@@ -21,6 +21,13 @@ class CounlNotFindNote implements Exception {}
 class NotesService {
   Database? _db;
 
+  Future<Iterable<DatababaseNote>> getAllNote({required int id}) async {
+    final db = _getDatabaseOrThrow();
+    final notes = await db.query(noteTable);
+
+    return notes.map((noteRow) => DatababaseNote.fromRow(noteRow));
+  }
+
   Future<DatababaseNote> getNote({required int id}) async {
     final db = _getDatabaseOrThrow();
     final notes = await db.query(
