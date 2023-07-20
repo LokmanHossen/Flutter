@@ -132,4 +132,3 @@ class _LoginViewState extends State<LoginView> {
   }
 }
 
-// Login Error handling
