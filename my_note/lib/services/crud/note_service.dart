@@ -18,8 +18,26 @@ class CounlNotFindUser implements Exception {}
 
 class CounlNotFindNote implements Exception {}
 
+class CounlNotUpdateNote implements Exception {}
+
 class NotesService {
   Database? _db;
+
+  Future<DatababaseNote> uspadetNote(
+      {required DatababaseNote note, required String text}) async {
+    final db = _getDatabaseOrThrow();
+    await getNote(id: note.id);
+
+    final updatesCount = await db.update(noteTable, {
+      textColumn: text,
+      isSyncedWithCloudCloud: 0,
+    });
+    if (updatesCount == 0) {
+      throw CounlNotUpdateNote();
+    }else{
+      return await getNote(id: note.id);
+    }
+  }
 
   Future<Iterable<DatababaseNote>> getAllNote({required int id}) async {
     final db = _getDatabaseOrThrow();
