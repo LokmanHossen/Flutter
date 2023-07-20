@@ -16,10 +16,25 @@ class UserAlreadyExists implements Exception {}
 
 class CounlNotFindUser implements Exception {}
 
-class CounlNotDeleteNote implements Exception {}
+class CounlNotFindNote implements Exception {}
 
 class NotesService {
   Database? _db;
+
+  Future<DatababaseNote> getNote({required int id}) async {
+    final db = _getDatabaseOrThrow();
+    final notes = await db.query(
+      noteTable,
+      limit: 1,
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    if (notes.isEmpty) {
+      throw CounlNotFindNote();
+    } else {
+      return DatababaseNote.fromRow(notes.first);
+    }
+  }
 
   Future<int> deleteAllNote() async {
     final db = _getDatabaseOrThrow();
