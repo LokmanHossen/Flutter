@@ -1,52 +1,47 @@
-//import 'package:flutter/cupertino.dart';
+import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:my_note/services/crud/crud_exceptions.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' show join;
 
-class DatabaseAlreadyOpenException implements Exception {}
-
-class UnableToGetDoumentsDirectory implements Exception {}
-
-class DatabaseIsNotOpen implements Exception {}
-
-class CouldNotDeleteUser implements Exception {}
-
-class UserAlreadyExists implements Exception {}
-
-class CounlNotFindUser implements Exception {}
-
-class CounlNotFindNote implements Exception {}
-
-class CounlNotUpdateNote implements Exception {}
-
 class NotesService {
   Database? _db;
 
-  Future<DatababaseNote> uspadetNote(
-      {required DatababaseNote note, required String text}) async {
+  List<DatabaseNote> _notes = [];
+
+  final _notesStreamController =
+      StreamController<List<DatabaseNote>>.broadcast();
+
+  Future<void> _cacheNotes() async {
+    final allNotes = await getAllNotes();
+    _notes = allNotes.toList();
+    _notesStreamController.add(_notes);
+  }
+
+  Future<DatabaseNote> uspadetNote(
+      {required DatabaseNote note, required String text}) async {
     final db = _getDatabaseOrThrow();
     await getNote(id: note.id);
-
     final updatesCount = await db.update(noteTable, {
       textColumn: text,
       isSyncedWithCloudCloud: 0,
     });
     if (updatesCount == 0) {
       throw CounlNotUpdateNote();
-    }else{
+    } else {
       return await getNote(id: note.id);
     }
   }
 
-  Future<Iterable<DatababaseNote>> getAllNote({required int id}) async {
+  Future<Iterable<DatabaseNote>> getAllNotes() async {
     final db = _getDatabaseOrThrow();
     final notes = await db.query(noteTable);
 
-    return notes.map((noteRow) => DatababaseNote.fromRow(noteRow));
+    return notes.map((noteRow) => DatabaseNote.fromRow(noteRow));
   }
 
-  Future<DatababaseNote> getNote({required int id}) async {
+  Future<DatabaseNote> getNote({required int id}) async {
     final db = _getDatabaseOrThrow();
     final notes = await db.query(
       noteTable,
@@ -57,13 +52,16 @@ class NotesService {
     if (notes.isEmpty) {
       throw CounlNotFindNote();
     } else {
-      return DatababaseNote.fromRow(notes.first);
+      return DatabaseNote.fromRow(notes.first);
     }
   }
 
-  Future<int> deleteAllNote() async {
+  Future<int> deleteAllNotes() async {
     final db = _getDatabaseOrThrow();
-    return await db.delete(noteTable);
+    final numberOfDeletions = await db.delete(noteTable);
+    _notes = [];
+     
+    return numberOfDeletions;
   }
 
   Future<void> deleteNote({required int id}) async {
@@ -75,10 +73,13 @@ class NotesService {
     );
     if (deleteCount == 0) {
       throw CouldNotDeleteUser();
+    } else {
+      _notes.removeWhere((note) => note.id == id);
+      _notesStreamController.add(_notes);
     }
   }
 
-  Future<DatababaseNote> createNote({required DatabaseUser owner}) async {
+  Future<DatabaseNote> createNote({required DatabaseUser owner}) async {
     final db = _getDatabaseOrThrow();
     //make sure owner exists in the database with the correct id
     final dbUser = await getUser(email: owner.email);
@@ -92,12 +93,14 @@ class NotesService {
       textColumn: text,
       isSyncedWithCloudCloud: 1,
     });
-    final note = DatababaseNote(
+    final note = DatabaseNote(
       id: noteId,
       userId: owner.id,
       text: text,
       isSyncedWithCloud: true,
     );
+    _notes.add(note);
+    _notesStreamController.add(_notes);
     return note;
   }
 
@@ -180,6 +183,7 @@ class NotesService {
       await db.execute(createUserTable);
       //create note table
       await db.execute(createNoteTable);
+      await _cacheNotes();
     } on MissingPlatformDirectoryException {
       throw UnableToGetDoumentsDirectory();
     }
@@ -207,19 +211,19 @@ class DatabaseUser {
   int get hashCode => id.hashCode;
 }
 
-class DatababaseNote {
+class DatabaseNote {
   final int id;
   final int userId;
   final String text;
   final bool isSyncedWithCloud;
 
-  DatababaseNote({
+  DatabaseNote({
     required this.id,
     required this.userId,
     required this.text,
     required this.isSyncedWithCloud,
   });
-  DatababaseNote.fromRow(Map<String, Object?> map)
+  DatabaseNote.fromRow(Map<String, Object?> map)
       : id = map[idColumn] as int,
         userId = map[userIdColumn] as int,
         text = map[textColumn] as String,
@@ -230,7 +234,7 @@ class DatababaseNote {
   String toString() =>
       'Note, ID = $id, userId = $userId, isSyncedWithCloud = $isSyncedWithCloud, text = $text';
   @override
-  bool operator ==(covariant DatababaseNote other) => id == other.id;
+  bool operator ==(covariant DatabaseNote other) => id == other.id;
 
   @override
   int get hashCode => id.hashCode;
