@@ -10,6 +10,8 @@ class UserAlreadyExists implements Exception {}
 
 class CounlNotFindUser implements Exception {}
 
+class CounlNotDeleteNote implements Exception {}
+
 class CounlNotFindNote implements Exception {}
 
 class CounlNotUpdateNote implements Exception {}
