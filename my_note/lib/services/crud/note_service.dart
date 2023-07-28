@@ -60,7 +60,7 @@ class NotesService {
     final db = _getDatabaseOrThrow();
     final numberOfDeletions = await db.delete(noteTable);
     _notes = [];
-     
+    _notesStreamController.add(_notes);
     return numberOfDeletions;
   }
 
