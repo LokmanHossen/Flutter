@@ -19,10 +19,15 @@ class NotesService {
     _notesStreamController.add(_notes);
   }
 
-  Future<DatabaseNote> uspadetNote(
+  Future<DatabaseNote> updeteNote(
       {required DatabaseNote note, required String text}) async {
     final db = _getDatabaseOrThrow();
+
+    //make sure not exist
     await getNote(id: note.id);
+
+    //update DB
+
     final updatesCount = await db.update(noteTable, {
       textColumn: text,
       isSyncedWithCloudCloud: 0,
@@ -30,7 +35,11 @@ class NotesService {
     if (updatesCount == 0) {
       throw CounlNotUpdateNote();
     } else {
-      return await getNote(id: note.id);
+      final updateNote = await getNote(id: note.id);
+      _notes.removeWhere((note) => note.id == updateNote.id);
+      _notes.add(updateNote);
+      _notesStreamController.add(_notes);
+      return updateNote;
     }
   }
 
