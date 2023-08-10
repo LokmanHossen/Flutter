@@ -1,17 +1,35 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
-import 'package:my_note/services/crud/crud_exceptions.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' show join;
+
+import 'crud_exceptions.dart';
 
 class NotesService {
   Database? _db;
 
   List<DatabaseNote> _notes = [];
 
+  static final NotesService _shared = NotesService._SharedInstance();
+  NotesService._SharedInstance();
+  factory NotesService() => _shared;
+
   final _notesStreamController =
       StreamController<List<DatabaseNote>>.broadcast();
+  Stream<List<DatabaseNote>> get allNotes => _notesStreamController.stream;
+
+  Future<DatabaseUser> getOrCreateUser({required String email}) async {
+    try {
+      final user = await getUser(email: email);
+      return user;
+    } on CouldNotFindUser {
+      final createdUser = await createUser(email: email);
+      return createdUser;
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   Future<void> _cacheNotes() async {
     final allNotes = await getAllNotes();
@@ -36,7 +54,7 @@ class NotesService {
       isSyncedWithCloudCloud: 0,
     });
     if (updatesCount == 0) {
-      throw CounlNotUpdateNote();
+      throw CouldNotUpdateNote();
     } else {
       final updateNote = await getNote(id: note.id);
       _notes.removeWhere((note) => note.id == updateNote.id);
@@ -64,7 +82,7 @@ class NotesService {
       whereArgs: [id],
     );
     if (notes.isEmpty) {
-      throw CounlNotFindNote();
+      throw CouldNotFindNote();
     } else {
       final note = DatabaseNote.fromRow(notes.first);
       _notes.removeWhere((note) => note.id == id);
@@ -92,7 +110,7 @@ class NotesService {
       whereArgs: [id],
     );
     if (deleteCount == 0) {
-      throw CouldNotDeleteUser();
+      throw CouldNotDeleteNote();
     } else {
       _notes.removeWhere((note) => note.id == id);
       _notesStreamController.add(_notes);
@@ -105,7 +123,7 @@ class NotesService {
     //make sure owner exists in the database with the correct id
     final dbUser = await getUser(email: owner.email);
     if (dbUser != owner) {
-      throw CounlNotFindUser();
+      throw CouldNotFindUser();
     }
     const text = '';
     //create the note
@@ -135,7 +153,7 @@ class NotesService {
       whereArgs: [email.toLowerCase()],
     );
     if (results.isEmpty) {
-      throw CounlNotFindUser();
+      throw CouldNotFindUser();
     } else {
       return DatabaseUser.fromRow(results.first);
     }

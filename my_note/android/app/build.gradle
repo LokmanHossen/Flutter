@@ -47,10 +47,11 @@ android {
         applicationId "com.example.my_note"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        minSdkVersion 19
+        targetSdkVersion 31
+        versionCode 40
+        versionName "7.0.40"
+        multiDexEnabled true
     }
 
     buildTypes {
