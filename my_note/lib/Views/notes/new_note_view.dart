@@ -21,6 +21,23 @@ class _NewNoteViewState extends State<NewNoteView> {
     super.initState();
   }
 
+  void _textControllerListener() async {
+    final note = _note;
+    if (note == null) {
+      return;
+    }
+    final text = _textController.text;
+    await _notesService.updeteNote(
+      note: note,
+      text: text,
+    );
+  }
+
+  void _setUptextControllerListener() {
+    _textController.removeListener(_textControllerListener);
+    _textController.addListener(_textControllerListener);
+  }
+
   Future<DatabaseNote> createNewNote() async {
     final existingNote = _note;
     if (existingNote != null) {
@@ -61,10 +78,30 @@ class _NewNoteViewState extends State<NewNoteView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('New Note'),
-      ),
-      body: const Text('Write your new note here.......'),
-    );
+        appBar: AppBar(
+          title: const Text('New Note'),
+        ),
+        body: FutureBuilder(
+          future: createNewNote(),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.done:
+                _note = snapshot.data as DatabaseNote;
+                _setUptextControllerListener();
+                return TextField(
+                  controller: _textController,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  decoration: const InputDecoration(
+                    hintText: 'Start typing your note',
+                  ),
+                );
+              default:
+                return const CircularProgressIndicator();
+            }
+          },
+        )
+        //const Text('Write your new note here.......'),
+        );
   }
 }
