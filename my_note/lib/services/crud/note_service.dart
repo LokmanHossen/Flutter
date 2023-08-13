@@ -11,12 +11,17 @@ class NotesService {
 
   List<DatabaseNote> _notes = [];
 
-  static final NotesService _shared = NotesService._SharedInstance();
-  NotesService._SharedInstance();
+  static final NotesService _shared = NotesService._sharedInstance();
+  NotesService._sharedInstance() {
+    _notesStreamController = StreamController<List<DatabaseNote>>.broadcast(
+      onListen: () {
+        _notesStreamController.sink.add(_notes);
+      },
+    );
+  }
   factory NotesService() => _shared;
 
-  final _notesStreamController =
-      StreamController<List<DatabaseNote>>.broadcast();
+  late final StreamController<List<DatabaseNote>> _notesStreamController;
   Stream<List<DatabaseNote>> get allNotes => _notesStreamController.stream;
 
   Future<DatabaseUser> getOrCreateUser({required String email}) async {
@@ -37,7 +42,7 @@ class NotesService {
     _notesStreamController.add(_notes);
   }
 
-  Future<DatabaseNote> updeteNote({
+  Future<DatabaseNote> updateNote({
     required DatabaseNote note,
     required String text,
   }) async {
@@ -300,14 +305,16 @@ const userIdColumn = 'user_id';
 const textColumn = 'text';
 const isSyncedWithCloudCloud = 'is_Synced_With_Cloud';
 
-const createUserTable = '''
+const createUserTable =
+    '''
       CREATE TABLE IF NOT EXISTS "user" (
           "id"	INTEGER NOT NULL,
           "email"	TEXT NOT NULL UNIQUE,
           PRIMARY KEY("id" AUTOINCREMENT)
         ); ''';
 
-const createNoteTable = ''' CREATE TABLE IF NOT EXISTS "note" (
+const createNoteTable =
+    ''' CREATE TABLE IF NOT EXISTS "note" (
           "id"	INTEGER NOT NULL,
           "user_id"	INTEGER NOT NULL,
           "text"	TEXT,
