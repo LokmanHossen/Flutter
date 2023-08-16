@@ -1,15 +1,17 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:my_note/extensions/list/filter.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' show join;
-
 import 'crud_exceptions.dart';
 
 class NotesService {
   Database? _db;
 
   List<DatabaseNote> _notes = [];
+
+  DatabaseNote? _user;
 
   static final NotesService _shared = NotesService._sharedInstance();
   NotesService._sharedInstance() {
@@ -22,14 +24,31 @@ class NotesService {
   factory NotesService() => _shared;
 
   late final StreamController<List<DatabaseNote>> _notesStreamController;
-  Stream<List<DatabaseNote>> get allNotes => _notesStreamController.stream;
+  Stream<List<DatabaseNote>> get allNotes =>
+      _notesStreamController.stream.filter((note) {
+        final currentUser = _user;
+        if (currentUser != null) {
+          return note.userId == currentUser.id;
+        } else {
+          throw UserShouldBeforeReadingAllNotes();
+        }
+      });
 
-  Future<DatabaseUser> getOrCreateUser({required String email}) async {
+  Future<DatabaseUser> getOrCreateUser({
+    required String email,
+    bool setAsCurrentUser = true,
+  }) async {
     try {
       final user = await getUser(email: email);
+      if (setAsCurrentUser) {
+        _user = user as DatabaseNote?;
+      }
       return user;
     } on CouldNotFindUser {
       final createdUser = await createUser(email: email);
+      if (setAsCurrentUser) {
+        _user = createdUser as DatabaseNote?;
+      }
       return createdUser;
     } catch (e) {
       rethrow;
@@ -54,10 +73,15 @@ class NotesService {
 
     //update DB
 
-    final updatesCount = await db.update(noteTable, {
-      textColumn: text,
-      isSyncedWithCloudCloud: 0,
-    });
+    final updatesCount = await db.update(
+      noteTable,
+      {
+        textColumn: text,
+        isSyncedWithCloudCloumn: 0,
+      },
+      where: 'id =?',
+      whereArgs: [note.id],
+    );
     if (updatesCount == 0) {
       throw CouldNotUpdateNote();
     } else {
@@ -135,7 +159,7 @@ class NotesService {
     final noteId = await db.insert(noteTable, {
       userIdColumn: owner.id,
       textColumn: text,
-      isSyncedWithCloudCloud: 1,
+      isSyncedWithCloudCloumn: 1,
     });
     final note = DatabaseNote(
       id: noteId,
@@ -283,7 +307,7 @@ class DatabaseNote {
         userId = map[userIdColumn] as int,
         text = map[textColumn] as String,
         isSyncedWithCloud =
-            (map[isSyncedWithCloudCloud] as int) == 1 ? true : false;
+            (map[isSyncedWithCloudCloumn] as int) == 1 ? true : false;
 
   @override
   String toString() =>
@@ -303,18 +327,16 @@ const idColumn = 'id';
 const emailColumn = 'email';
 const userIdColumn = 'user_id';
 const textColumn = 'text';
-const isSyncedWithCloudCloud = 'is_Synced_With_Cloud';
+const isSyncedWithCloudCloumn = 'is_Synced_With_Cloud';
 
-const createUserTable =
-    '''
+const createUserTable = '''
       CREATE TABLE IF NOT EXISTS "user" (
           "id"	INTEGER NOT NULL,
           "email"	TEXT NOT NULL UNIQUE,
           PRIMARY KEY("id" AUTOINCREMENT)
         ); ''';
 
-const createNoteTable =
-    ''' CREATE TABLE IF NOT EXISTS "note" (
+const createNoteTable = ''' CREATE TABLE IF NOT EXISTS "note" (
           "id"	INTEGER NOT NULL,
           "user_id"	INTEGER NOT NULL,
           "text"	TEXT,
