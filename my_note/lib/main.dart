@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_note/Views/login_view.dart';
-import 'package:my_note/Views/notes/new_note_view.dart';
+import 'package:my_note/Views/notes/create_update_note_view.dart';
 import 'package:my_note/Views/notes/notes_view.dart';
 import 'package:my_note/Views/register_view.dart';
 import 'package:my_note/Views/verify_email_view.dart';
@@ -11,7 +11,7 @@ void main() {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo', 
+      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -21,7 +21,7 @@ void main() {
         registerRoute: (context) => const RegisterView(),
         notesRoute: (context) => const NotesView(),
         verifyEmailRoute: (context) => const VerifyEnmailView(),
-        newNoteroute:(context) => const NewNoteView(),
+        createOrUpdateNoteRoute: (context) => const CreateUpdateNoteView(),
       },
     ),
   );
