@@ -10,8 +10,9 @@ class NotesService {
   Database? _db;
 
   List<DatabaseNote> _notes = [];
-
   DatabaseNote? _user;
+
+  //DatabaseNote? _user;
 
   static final NotesService _shared = NotesService._sharedInstance();
   NotesService._sharedInstance() {
@@ -24,6 +25,7 @@ class NotesService {
   factory NotesService() => _shared;
 
   late final StreamController<List<DatabaseNote>> _notesStreamController;
+
   Stream<List<DatabaseNote>> get allNotes =>
       _notesStreamController.stream.filter((note) {
         final currentUser = _user;
