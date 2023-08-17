@@ -3,7 +3,8 @@ import 'package:my_note/Views/notes/notes_list_view.dart';
 import 'package:my_note/constants/routes.dart';
 import 'package:my_note/enums/menu_action.dart';
 import 'package:my_note/services/auth/auth_service.dart';
-import 'package:my_note/services/crud/note_service.dart';
+import 'package:my_note/services/cloud/cloud_note.dart';
+import 'package:my_note/services/cloud/firebase_cloud_storage.dart';
 import 'package:my_note/utilities/dialogs/logout_dialog.dart';
 
 class NotesView extends StatefulWidget {
@@ -13,101 +14,90 @@ class NotesView extends StatefulWidget {
 }
 
 class _NotesViewState extends State<NotesView> {
-  late final NotesService _notesService;
+  late final FirebaseCloudStorage _notesService;
 
-  String get userEmail => AuthService.firebase().currentUser!.email;
+  String get userId => AuthService.firebase().currentUser!.id;
 
   @override
   void initState() {
-    _notesService = NotesService();
-    _notesService.open();
+    _notesService = FirebaseCloudStorage();
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Your Notes'),
-          actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(createOrUpdateNoteRoute);
-              },
-              icon: const Icon(Icons.add),
-            ),
-            PopupMenuButton<MenuAction>(
-              onSelected: (value) async {
-                switch (value) {
-                  case MenuAction.logout:
-                    final shouldLogout = await showLogOutDialog(context);
-                    if (shouldLogout) {
-                      await AuthService.firebase().logOut();
-                      if (!mounted) return;
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                        loginRoute,
-                        (_) => false,
-                      );
-                    }
-                  // devtools.log(shouldLogout.toString());
+      appBar: AppBar(
+        title: const Text('Your Notes'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(createOrUpdateNoteRoute);
+            },
+            icon: const Icon(Icons.add),
+          ),
+          PopupMenuButton<MenuAction>(
+            onSelected: (value) async {
+              switch (value) {
+                case MenuAction.logout:
+                  final shouldLogout = await showLogOutDialog(context);
+                  if (shouldLogout) {
+                    await AuthService.firebase().logOut();
+                    if (!mounted) return;
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      loginRoute,
+                      (_) => false,
+                    );
+                  }
+                // devtools.log(shouldLogout.toString());
 
-                  // break;
-                }
-                // devtools.log(value.toString());
-              },
-              itemBuilder: (context) {
-                return const [
-                  PopupMenuItem(
-                    value: MenuAction.logout,
-                    child: Text('Log out'),
-                  ),
-                ];
-              },
-            )
-          ],
-        ),
-        body: FutureBuilder(
-          future: _notesService.getOrCreateUser(email: userEmail),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.done:
-                // return const Text('Your Notes will appear here');
-                return StreamBuilder(
-                  stream: _notesService.allNotes,
-                  builder: (context, snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.waiting:
-                      case ConnectionState.active:
-                        if (snapshot.hasData) {
-                          final allNotes = snapshot.data as List<DatabaseNote>;
-                          return NotesListView(
-                            notes: allNotes,
-                            onDeleteNote: (note) async {
-                              await _notesService.deleteNote(id: note.id);
-                            },
-                            onTab: (note) async {
-                              Navigator.of(context).pushNamed(
-                                createOrUpdateNoteRoute,
-                                arguments: note,
-                              );
-                            },
-                          );
-                        } else {
-                          return const CircularProgressIndicator();
-                        }
-                      // return const Text('Waiting for all notes.........');
-                      default:
-                        return const CircularProgressIndicator();
-                    }
+                // break;
+              }
+              // devtools.log(value.toString());
+            },
+            itemBuilder: (context) {
+              return const [
+                PopupMenuItem(
+                  value: MenuAction.logout,
+                  child: Text('Log out'),
+                ),
+              ];
+            },
+          )
+        ],
+      ),
+      body: StreamBuilder(
+        stream: _notesService.allNotes(ownerUserId: userId),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+            case ConnectionState.active:
+              if (snapshot.hasData) {
+                final allNotes = snapshot.data as Iterable<CloudNote>;
+                return NotesListView(
+                  notes: allNotes,
+                  onDeleteNote: (note) async {
+                    await _notesService.deleteNote(documentId: note.documentId);
+                  },
+                  onTab: (note) async {
+                    Navigator.of(context).pushNamed(
+                      createOrUpdateNoteRoute,
+                      arguments: note,
+                    );
                   },
                 );
-              default:
+              } else {
                 return const CircularProgressIndicator();
-            }
-          },
-        )
-        //const Text('Hello wprld'),
-        );
+              }
+            // return const Text('Waiting for all notes.........');
+            default:
+              return const CircularProgressIndicator();
+          }
+        },
+      ),
+      //const Text('Hello wprld'),
+    );
   }
 } 
 
