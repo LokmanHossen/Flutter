@@ -82,12 +82,58 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => CounterBloc(),
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Testing bloc'),
-          ),
-        ));
+      create: (context) => CounterBloc(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Testing bloc'),
+        ),
+        body: BlocConsumer<CounterBloc, CounterState>(
+          listener: (context, state) {
+            _controller.clear();
+          },
+          builder: (context, state) {
+            final invalidValue =
+                (state is CounterStateInValidNumber) ? state.invalidvalue : '';
+            return Column(
+              children: [
+                Text('Counter value => ${state.value}'),
+                Visibility(
+                  child: Text('Invalid input: $invalidValue'),
+                  visible: state is CounterStateInValidNumber,
+                ),
+                TextField(
+                  controller: _controller,
+                  decoration: const InputDecoration(
+                    hintText: 'Enter a number here',
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+                Row(
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        context
+                            .read<CounterBloc>()
+                            .add(DecrementEvent(_controller.text));
+                      },
+                      child: const Text('-'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        context
+                            .read<CounterBloc>()
+                            .add(IncrementEvent(_controller.text));
+                      },
+                      child: const Text('+'),
+                    ),
+                  ],
+                )
+              ],
+            );
+          },
+        ),
+      ),
+    );
   }
 }
 
