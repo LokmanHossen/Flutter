@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_note/constants/routes.dart';
-import 'package:my_note/services/auth/auth_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_note/services/auth/bloc/auth_bloc.dart';
+import 'package:my_note/services/auth/bloc/auth_event.dart';
 
 class VerifyEnmailView extends StatefulWidget {
   const VerifyEnmailView({Key? key}) : super(key: key);
@@ -28,7 +29,10 @@ class _VerifyEnmailViewState extends State<VerifyEnmailView> {
             ),
             TextButton(
               onPressed: () async {
-                AuthService.firebase().sendEmailVerification();
+                context.read<AuthBloc>().add(
+                      const AuthEventSendEmailVerification()
+                    );
+                // AuthService.firebase().sendEmailVerification();
               },
               child: const Text(
                 'Send Email verification',
@@ -40,12 +44,16 @@ class _VerifyEnmailViewState extends State<VerifyEnmailView> {
             ),
             TextButton(
               onPressed: () async {
-                AuthService.firebase().logOut();
-                if (!mounted) return;
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  registerRoute,
-                  (route) => false,
-                );
+                 context.read<AuthBloc>().add(
+                      const AuthEventLogOut(),
+                    );
+                
+                // AuthService.firebase().logOut();
+                // if (!mounted) return;
+                // Navigator.of(context).pushNamedAndRemoveUntil(
+                //   registerRoute,
+                //   (route) => false,
+                // );
               },
               child: const Text(
                 'Restart',
