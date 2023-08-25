@@ -74,49 +74,50 @@ class _LoginViewState extends State<LoginView> {
               onPressed: () async {
                 final email = _email.text;
                 final password = _password.text;
-                try {
-                  context.read<AuthBloc>().add(
+                 context.read<AuthBloc>().add(
                         AutheventLogIn(
                           email,
                           password,
                         ),
                       );
-                  // await AuthService.firebase().logIn(
-                  //   email: email,
-                  //   password: password,
-                  // );
-                  // final user = AuthService.firebase().currentUser;
-                  // if (user?.isEmailVerified ?? false) {
-                  //   //user's emmail is verified
-                  //   if (!mounted) return;
-                  //   Navigator.of(context).pushNamedAndRemoveUntil(
-                  //     notesRoute,
-                  //     (route) => false,
-                  //   );
-                  // } else {
-                  //   // User email NOT vverified
-                  //   if (!mounted) return;
-                  //   Navigator.of(context).pushNamedAndRemoveUntil(
-                  //     verifyEmailRoute,
-                  //     (route) => false,
-                  //   );
-                  // }
-                } on UserNotFoundAuthException {
-                  await showErrorDialog(
-                    context,
-                    'User not found',
-                  );
-                } on WrongPasswordAuthException {
-                  await showErrorDialog(
-                    context,
-                    'Wrong credentials ',
-                  );
-                } on GenericAuthException {
-                  await showErrorDialog(
-                    context,
-                    'Authentication Error',
-                  );
-                }
+                // try {
+                 
+                //   // await AuthService.firebase().logIn(
+                //   //   email: email,
+                //   //   password: password,
+                //   // );
+                //   // final user = AuthService.firebase().currentUser;
+                //   // if (user?.isEmailVerified ?? false) {
+                //   //   //user's emmail is verified
+                //   //   if (!mounted) return;
+                //   //   Navigator.of(context).pushNamedAndRemoveUntil(
+                //   //     notesRoute,
+                //   //     (route) => false,
+                //   //   );
+                //   // } else {
+                //   //   // User email NOT vverified
+                //   //   if (!mounted) return;
+                //   //   Navigator.of(context).pushNamedAndRemoveUntil(
+                //   //     verifyEmailRoute,
+                //   //     (route) => false,
+                //   //   );
+                //   // }
+                // } on UserNotFoundAuthException {
+                //   await showErrorDialog(
+                //     context,
+                //     'User not found',
+                //   );
+                // } on WrongPasswordAuthException {
+                //   await showErrorDialog(
+                //     context,
+                //     'Wrong credentials ',
+                //   );
+                // } on GenericAuthException {
+                //   await showErrorDialog(
+                //     context,
+                //     'Authentication Error',
+                //   );
+                // }
               },
               child: const Text("LogIn"),
             ),
