@@ -40,19 +40,21 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<AuthBloc>().add(const AuthEventInitialize());
-    return BlocBuilder<AuthBloc, AuthState>(builder: (context, State) {
-      if (State is AuthStateLoggedIn) {
-        return const NotesView();
-      } else if (State is AuthStateNeedsVerification) {
-        return const VerifyEnmailView();
-      } else if (State is AuthStateLoggedOut) {
-        return const LoginView();
-      } else {
-        return const Scaffold(
-          body: CircularProgressIndicator(),
-        );
-      }
-    });
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (state is AuthStateLoggedIn) {
+          return const NotesView();
+        } else if (state is AuthStateNeedsVerification) {
+          return const VerifyEnmailView();
+        } else if (state is AuthStateLoggedOut) {
+          return const LoginView();
+        } else {
+          return const Scaffold(
+            body: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
     // return FutureBuilder(
     //   future: AuthService.firebase().initialize(),
     //   // AuthService.firebase().initialize(),
