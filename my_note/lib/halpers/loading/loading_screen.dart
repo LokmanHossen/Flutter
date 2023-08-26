@@ -31,7 +31,7 @@ class LoadingScreen {
   LoadingScreenController showOverlay({
     required BuildContext context,
     required String text,
-  }) {
+}) {
     final _text = StreamController<String>();
     _text.add(text);
 
