@@ -68,7 +68,7 @@ class _LoginViewState extends State<LoginView> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              Text(
+              const Text(
                   'Please log in to your account in order to interact with and create notes!'),
               TextField(
                 controller: _email,
