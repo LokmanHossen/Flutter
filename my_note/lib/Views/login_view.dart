@@ -64,94 +64,97 @@ class _LoginViewState extends State<LoginView> {
         appBar: AppBar(
           title: const Text('Login'),
         ),
-        body: Column(
-          children: [
-            TextField(
-              controller: _email,
-              enableSuggestions: false,
-              autocorrect: false,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                hintText: " Enter Your email here",
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              TextField(
+                controller: _email,
+                enableSuggestions: false,
+                autocorrect: false,
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
+                  hintText: " Enter Your email here",
+                ),
               ),
-            ),
-            TextField(
-              controller: _password,
-              obscureText: true,
-              enableSuggestions: false,
-              autocorrect: false,
-              decoration: const InputDecoration(
-                hintText: " Enter your password here",
+              TextField(
+                controller: _password,
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
+                decoration: const InputDecoration(
+                  hintText: " Enter your password here",
+                ),
               ),
-            ),
-            TextButton(
-              onPressed: () async {
-                final email = _email.text;
-                final password = _password.text;
-                context.read<AuthBloc>().add(
-                      AutheventLogIn(
-                        email,
-                        password,
-                      ),
-                    );
-                // try {
+              TextButton(
+                onPressed: () async {
+                  final email = _email.text;
+                  final password = _password.text;
+                  context.read<AuthBloc>().add(
+                        AutheventLogIn(
+                          email,
+                          password,
+                        ),
+                      );
+                  // try {
 
-                //   // await AuthService.firebase().logIn(
-                //   //   email: email,
-                //   //   password: password,
-                //   // );
-                //   // final user = AuthService.firebase().currentUser;
-                //   // if (user?.isEmailVerified ?? false) {
-                //   //   //user's emmail is verified
-                //   //   if (!mounted) return;
-                //   //   Navigator.of(context).pushNamedAndRemoveUntil(
-                //   //     notesRoute,
-                //   //     (route) => false,
-                //   //   );
-                //   // } else {
-                //   //   // User email NOT vverified
-                //   //   if (!mounted) return;
-                //   //   Navigator.of(context).pushNamedAndRemoveUntil(
-                //   //     verifyEmailRoute,
-                //   //     (route) => false,
-                //   //   );
-                //   // }
-                // } on UserNotFoundAuthException {
-                //   await showErrorDialog(
-                //     context,
-                //     'User not found',
-                //   );
-                // } on WrongPasswordAuthException {
-                //   await showErrorDialog(
-                //     context,
-                //     'Wrong credentials ',
-                //   );
-                // } on GenericAuthException {
-                //   await showErrorDialog(
-                //     context,
-                //     'Authentication Error',
-                //   );
-                // }
-              },
-              child: const Text("LogIn"),
-            ),
-            TextButton(
-              onPressed: () {
-                context.read<AuthBloc>().add(
-                      const AuthEventForgotPassword(),
-                    );
-              },
-              child: const Text('I forgot my password'),
-            ),
-            TextButton(
-              onPressed: () {
-                context.read<AuthBloc>().add(
-                      const AuthEventShouldRegister(),
-                    );
-              },
-              child: const Text('Not register yet? Register here!'),
-            ),
-          ],
+                  //   // await AuthService.firebase().logIn(
+                  //   //   email: email,
+                  //   //   password: password,
+                  //   // );
+                  //   // final user = AuthService.firebase().currentUser;
+                  //   // if (user?.isEmailVerified ?? false) {
+                  //   //   //user's emmail is verified
+                  //   //   if (!mounted) return;
+                  //   //   Navigator.of(context).pushNamedAndRemoveUntil(
+                  //   //     notesRoute,
+                  //   //     (route) => false,
+                  //   //   );
+                  //   // } else {
+                  //   //   // User email NOT vverified
+                  //   //   if (!mounted) return;
+                  //   //   Navigator.of(context).pushNamedAndRemoveUntil(
+                  //   //     verifyEmailRoute,
+                  //   //     (route) => false,
+                  //   //   );
+                  //   // }
+                  // } on UserNotFoundAuthException {
+                  //   await showErrorDialog(
+                  //     context,
+                  //     'User not found',
+                  //   );
+                  // } on WrongPasswordAuthException {
+                  //   await showErrorDialog(
+                  //     context,
+                  //     'Wrong credentials ',
+                  //   );
+                  // } on GenericAuthException {
+                  //   await showErrorDialog(
+                  //     context,
+                  //     'Authentication Error',
+                  //   );
+                  // }
+                },
+                child: const Text("LogIn"),
+              ),
+              TextButton(
+                onPressed: () {
+                  context.read<AuthBloc>().add(
+                        const AuthEventForgotPassword(),
+                      );
+                },
+                child: const Text('I forgot my password'),
+              ),
+              TextButton(
+                onPressed: () {
+                  context.read<AuthBloc>().add(
+                        const AuthEventShouldRegister(),
+                      );
+                },
+                child: const Text('Not register yet? Register here!'),
+              ),
+            ],
+          ),
         ),
       ),
     );
