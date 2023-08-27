@@ -49,7 +49,10 @@ class _LoginViewState extends State<LoginView> {
           // }
 
           if (state.exception is UserNotFoundAuthException) {
-            await showErrorDialog(context, "User not found");
+            await showErrorDialog(
+              context,
+              'Cannot fined a user with the entered credentials!',
+            );
           } else if (state.exception is WrongPasswordAuthException) {
             await showErrorDialog(context, 'Wrong credentials');
           } else if (state.exception is GenericAuthException) {
@@ -132,7 +135,7 @@ class _LoginViewState extends State<LoginView> {
               },
               child: const Text("LogIn"),
             ),
-              TextButton(
+            TextButton(
               onPressed: () {
                 context.read<AuthBloc>().add(
                       const AuthEventForgotPassword(),
@@ -140,7 +143,6 @@ class _LoginViewState extends State<LoginView> {
               },
               child: const Text('I forgot my password'),
             ),
-            
             TextButton(
               onPressed: () {
                 context.read<AuthBloc>().add(
