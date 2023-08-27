@@ -29,9 +29,9 @@ class _VerifyEnmailViewState extends State<VerifyEnmailView> {
             ),
             TextButton(
               onPressed: () async {
-                context.read<AuthBloc>().add(
-                      const AuthEventSendEmailVerification()
-                    );
+                context
+                    .read<AuthBloc>()
+                    .add(const AuthEventSendEmailVerification());
                 // AuthService.firebase().sendEmailVerification();
               },
               child: const Text(
@@ -44,10 +44,10 @@ class _VerifyEnmailViewState extends State<VerifyEnmailView> {
             ),
             TextButton(
               onPressed: () async {
-                 context.read<AuthBloc>().add(
+                context.read<AuthBloc>().add(
                       const AuthEventLogOut(),
                     );
-                
+
                 // AuthService.firebase().logOut();
                 // if (!mounted) return;
                 // Navigator.of(context).pushNamedAndRemoveUntil(
