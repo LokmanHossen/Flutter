@@ -79,6 +79,7 @@ class _RegisterViewState extends State<RegisterView> {
                 controller: _email,
                 enableSuggestions: false,
                 autocorrect: false,
+                autofocus: true,
                 keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
                   hintText: " Enter Your email here",
@@ -99,14 +100,14 @@ class _RegisterViewState extends State<RegisterView> {
                       onPressed: () async {
                         final email = _email.text;
                         final password = _password.text;
-              
+
                         context.read<AuthBloc>().add(
                               AuthEventregister(
                                 email,
                                 password,
                               ),
                             );
-              
+
                         // try {
                         //   await AuthService.firebase().createUser(
                         //     email: email,
